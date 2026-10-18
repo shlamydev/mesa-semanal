@@ -89,9 +89,12 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Pestaña Recetas (búsqueda, filtros, kcal) y detalle de receta con ingredientes escalados.
 - Recetas propias: formulario con validación, creación desde "+ Nueva receta", desde búsqueda sin resultados y desde un hueco (se asigna al hueco), eliminación con confirmación (solo las propias).
 
+- Comprobado en navegador real (5 comidas, kcal por día, estilo idéntico al prototipo).
+- Despliegue preparado: `vercel.json` y `README.md` con los pasos (Vercel o Netlify).
+
 ### Pendiente
-- Comparar visualmente con el prototipo y pulir accesibilidad.
-- Despliegue en Vercel (o Netlify).
+- Publicar de verdad: subir a GitHub e importar en Vercel (ver README).
+- Mejoras futuras de la sección "Siguientes mejoras" (editar recetas propias, objetivo diario de kcal, etc.).
 
 ### Decisiones
 - `meals` en el estado guarda las comidas visibles en orden canónico (b, a, l, m, d); por defecto b, l, d como el prototipo.
