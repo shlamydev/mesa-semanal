@@ -1,0 +1,77 @@
+# Mesa Semanal
+
+Planificador de comidas semanal con lista de la compra automática. El punto de partida es un prototipo en un único HTML: `prototipo/planificador-comidas.html`. Léelo entero antes de empezar: es la referencia de funcionalidad, diseño y comportamiento.
+
+## Objetivo
+
+Convertir el prototipo en una web mantenible, sin cambiar su aspecto ni su comportamiento, y dejarla lista para desplegar.
+
+## Stack
+
+* Vite + React + TypeScript
+* CSS plano con variables (migrar tal cual los tokens `:root` del prototipo, incluido el modo oscuro)
+* Estado: React (`useReducer` + contexto) con persistencia en `localStorage` (clave `mesa-semanal`)
+* Tests: Vitest + Testing Library
+* Sin backend por ahora. Despliegue estático (Vercel, Netlify o GitHub Pages)
+
+## Comandos
+
+* `npm install`: instalar dependencias
+* `npm run dev`: servidor de desarrollo
+* `npm run build`: build de producción
+* `npm run test`: tests
+* `npm run lint`: lint
+
+## Estructura prevista
+
+```
+src/
+  components/   Semana, Recetas, Compra, Modales, Cabecera
+  data/         recetas base (recipes.ts) y calorías
+  state/        reducer, contexto y persistencia
+  lib/          shopping.ts (cálculo de la lista de la compra)
+  styles/       tokens.css y estilos por componente
+prototipo/      HTML original (no modificar, solo referencia)
+
+```
+
+## Modelo de datos (viene del prototipo)
+
+* Receta: `{ id, n, e, t, tg, m, ing, k, custom? }`
+   * `tg`: `"v"` vegetariana, `"vg"` vegana
+   * `m`: comidas válidas, p. ej. `"bam"`
+   * `ing`: `[nombre, cantidad para 2 personas, unidad, sección]`
+   * `k`: kcal aproximadas por persona
+* Estado: `{ people, plan, done, have, meals, custom }`
+   * `plan`: `{ "<día 0-6><comida>": recetaId }`
+   * comidas: `b` desayuno, `a` almuerzo, `l` comida, `m` merienda, `d` cena
+
+## Reglas de negocio que no se deben romper
+
+* Las cantidades de las recetas están definidas para 2 personas y se escalan por `people / 2`
+* La lista de la compra suma ingredientes con mismo nombre y unidad, y agrupa por sección
+* Las comidas ocultas no cuentan en la lista de la compra, pero sus recetas se conservan en el plan
+* Siempre debe quedar al menos una comida activa
+* "Ya lo tengo" mueve el ingrediente a la despensa; es por nombre
+* Si una búsqueda o filtro no da resultados, se ofrece crear una receta (desde un hueco, se asigna a ese hueco)
+* Las recetas propias se pueden eliminar; las de serie no
+
+## Convenciones
+
+* Idioma de la interfaz y de los textos: español
+* TypeScript estricto, componentes funcionales, sin `any`
+* Accesibilidad: foco visible, `aria-*` en pestañas, botones y modales, cierre con Escape
+* Respetar `prefers-color-scheme` y `prefers-reduced-motion`
+* Mobile first; la cuadrícula semanal pasa a columnas desde 760px
+* Commits pequeños y descriptivos
+
+## Forma de trabajar
+
+1. Proponer un plan corto antes de tocar código
+2. Migrar por partes (datos y lógica primero, luego componentes) y probar tras cada una
+3. Añadir tests de `shopping.ts` y del reducer
+4. Comparar con el prototipo antes de dar algo por terminado
+
+## Siguientes mejoras (fuera del alcance inicial)
+
+Editar recetas propias, pasos de preparación, macros, objetivo diario de kcal, exportar la lista de la compra, cuentas de usuario y sincronización entre dispositivos.
