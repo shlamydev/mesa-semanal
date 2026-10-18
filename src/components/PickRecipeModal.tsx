@@ -5,6 +5,7 @@ import { formatKcalPerson } from '../lib/format'
 import { parseSlot } from '../lib/slots'
 import { useStore } from '../state/useStore'
 import type { RecipeFilter } from '../types'
+import { CreateRecipeButton } from './CreateRecipeButton'
 import { dietLabel } from './dietLabel'
 import { Filtros } from './Filtros'
 import { Modal } from './Modal'
@@ -12,10 +13,12 @@ import { Modal } from './Modal'
 interface Props {
   slot: string
   onClose: () => void
+  /** Abre el formulario de receta nueva para este hueco. */
+  onCreate: (name: string) => void
 }
 
 /** Selector de receta para un hueco concreto de la semana. */
-export function PickRecipeModal({ slot, onClose }: Props) {
+export function PickRecipeModal({ slot, onClose, onCreate }: Props) {
   const { recipes, dispatch } = useStore()
   const { day, meal } = parseSlot(slot)
   const [filter, setFilter] = useState<RecipeFilter>('all')
@@ -52,7 +55,12 @@ export function PickRecipeModal({ slot, onClose }: Props) {
           </span>
         </button>
       ))}
-      {list.length === 0 && <p className="empty">Sin resultados con estos filtros.</p>}
+      {list.length === 0 && (
+        <div className="noresults">
+          <p className="empty">Sin resultados con estos filtros.</p>
+          <CreateRecipeButton query={query} onClick={() => onCreate(query.trim())} />
+        </div>
+      )}
       <button className="btn" style={{ marginTop: 12 }} onClick={onClose}>
         Cerrar
       </button>

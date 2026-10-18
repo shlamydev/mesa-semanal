@@ -4,3 +4,5 @@
 .rc{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left;display:flex;flex-direction:column;gap:4px}
 .rc .em{font-size:2rem;line-height:1}
 .rc b{font-weight:600}
+.tools .search{margin-bottom:0;flex:1 1 220px}
+.noresults{display:grid;gap:10px;justify-items:start}

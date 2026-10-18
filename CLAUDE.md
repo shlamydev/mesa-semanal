@@ -86,11 +86,12 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Datos: 12 recetas del prototipo + 4 ligeras (almuerzo/merienda), todas con `k` (kcal/persona, estimadas) en `src/data/recipes.ts`.
 - Lógica con tests: `lib/shopping.ts`, `lib/nutrition.ts`, `lib/filter.ts`, `lib/suggest.ts`, reducer, persistencia (migra el formato antiguo del prototipo).
 - Componentes: Cabecera, pestañas, Compra, Semana (comidas configurables, kcal por día, arrastrar y soltar, sugerir), selector de receta, Modal accesible.
+- Pestaña Recetas (búsqueda, filtros, kcal) y detalle de receta con ingredientes escalados.
+- Recetas propias: formulario con validación, creación desde "+ Nueva receta", desde búsqueda sin resultados y desde un hueco (se asigna al hueco), eliminación con confirmación (solo las propias).
 
 ### Pendiente
-- Pestaña Recetas y detalle de receta.
-- Recetas propias (formulario, crear desde hueco o búsqueda sin resultados, eliminar).
-- Comparar con el prototipo, pulido de accesibilidad, despliegue en Vercel.
+- Comparar visualmente con el prototipo y pulir accesibilidad.
+- Despliegue en Vercel (o Netlify).
 
 ### Decisiones
 - `meals` en el estado guarda las comidas visibles en orden canónico (b, a, l, m, d); por defecto b, l, d como el prototipo.
