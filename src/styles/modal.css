@@ -1,0 +1,9 @@
+.ov{position:fixed;inset:0;background:rgba(10,18,14,.55);display:none;align-items:flex-end;justify-content:center;z-index:10}
+.ov.show{display:flex}
+.modal{background:var(--surf);width:100%;max-width:520px;max-height:86%;overflow:auto;border-radius:18px 18px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.modal:focus{outline:none}
+@media(min-width:600px){.ov{align-items:center}.modal{border-radius:18px}}
+.modal h2{margin:0 0 4px;font-size:1.3rem}
+.modal ul{padding-left:18px;margin:10px 0}
+.pick{display:flex;gap:10px;align-items:center;width:100%;border:0;border-top:1px solid var(--line);background:none;padding:10px 4px;text-align:left}
+.pick .em{font-size:1.6rem}
