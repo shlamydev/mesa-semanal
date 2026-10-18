@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { Cabecera } from './components/Cabecera'
 import { Compra } from './components/Compra'
+import { PickRecipeModal } from './components/PickRecipeModal'
+import { Semana } from './components/Semana'
 import { StoreProvider } from './state/StoreProvider'
 import { useStore } from './state/useStore'
 import { buildShoppingList, pendingCount } from './lib/shopping'
 
 type Tab = 'week' | 'rec' | 'shop'
+type ModalState = { kind: 'pick'; slot: string } | null
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'week', label: 'Semana' },
@@ -17,6 +20,7 @@ function Shell() {
   const { state, recipes } = useStore()
   const [tab, setTab] = useState<Tab>('week')
   const [toast, setToast] = useState('')
+  const [modal, setModal] = useState<ModalState>(null)
   const timer = useRef<number>(undefined)
 
   useEffect(() => () => window.clearTimeout(timer.current), [])
@@ -26,7 +30,6 @@ function Shell() {
     window.clearTimeout(timer.current)
     timer.current = window.setTimeout(() => setToast(''), 1800)
   }
-  void notify
 
   const pending = pendingCount(
     buildShoppingList(state.plan, recipes, state.people, state.meals),
@@ -53,8 +56,11 @@ function Shell() {
         ))}
       </nav>
       <main id="panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
-        {tab === 'shop' ? <Compra /> : <p className="empty">En construcción</p>}
+        {tab === 'week' && <Semana onPick={(slot) => setModal({ kind: 'pick', slot })} notify={notify} />}
+        {tab === 'rec' && <p className="empty">En construcción</p>}
+        {tab === 'shop' && <Compra />}
       </main>
+      {modal?.kind === 'pick' && <PickRecipeModal slot={modal.slot} onClose={() => setModal(null)} />}
       <div className={`toast ${toast ? 'show' : ''}`} role="status" aria-live="polite">
         {toast}
       </div>

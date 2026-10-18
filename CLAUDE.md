@@ -75,3 +75,26 @@ prototipo/      HTML original (no modificar, solo referencia)
 ## Siguientes mejoras (fuera del alcance inicial)
 
 Editar recetas propias, pasos de preparación, macros, objetivo diario de kcal, exportar la lista de la compra, cuentas de usuario y sincronización entre dispositivos.
+
+## Progreso
+
+Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comidas configurables, las calorías y las recetas propias solo existen en la versión React.
+
+### Hecho
+- Esqueleto Vite + React + TS estricto, Vitest + Testing Library, oxlint (`npm run lint`).
+- Tokens CSS migrados del prototipo (`src/styles/tokens.css`, con modo oscuro) y colores nuevos `--a` (almuerzo) y `--m` (merienda).
+- Datos: 12 recetas del prototipo + 4 ligeras (almuerzo/merienda), todas con `k` (kcal/persona, estimadas) en `src/data/recipes.ts`.
+- Lógica con tests: `lib/shopping.ts`, `lib/nutrition.ts`, `lib/filter.ts`, `lib/suggest.ts`, reducer, persistencia (migra el formato antiguo del prototipo).
+- Componentes: Cabecera, pestañas, Compra, Semana (comidas configurables, kcal por día, arrastrar y soltar, sugerir), selector de receta, Modal accesible.
+
+### Pendiente
+- Pestaña Recetas y detalle de receta.
+- Recetas propias (formulario, crear desde hueco o búsqueda sin resultados, eliminar).
+- Comparar con el prototipo, pulido de accesibilidad, despliegue en Vercel.
+
+### Decisiones
+- `meals` en el estado guarda las comidas visibles en orden canónico (b, a, l, m, d); por defecto b, l, d como el prototipo.
+- Recetas propias con id desde 1000 (`nextCustomId`), así no chocan con las de serie; al eliminar una se quita también del plan.
+- Una clave de hueco es `<día><comida>` (p. ej. `2l`); la de "comprado" es `nombre|unidad`; "ya lo tengo" va solo por nombre.
+- Tests: Node 25 trae un `localStorage` experimental que rompe jsdom; `src/test/setup.ts` lo sustituye por uno en memoria.
+- El estado de interfaz (pestaña, filtros, búsqueda, modales) es local de React; solo lo del dominio va al reducer y a `localStorage`.

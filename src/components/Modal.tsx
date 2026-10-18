@@ -22,7 +22,7 @@ export function Modal({ title, onClose, children }: Props) {
 
   useEffect(() => {
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null
-    dialog.current?.focus()
+    if (!dialog.current?.contains(document.activeElement)) dialog.current?.focus()
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
