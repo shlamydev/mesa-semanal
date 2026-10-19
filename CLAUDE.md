@@ -93,6 +93,7 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Despliegue preparado: `vercel.json` y `README.md` con los pasos (Vercel o Netlify).
 
 - Rediseño visual (2026-10-19): tokens nuevos (`--surf-2`, `--ok`, radios y sombra), huecos con recuadro de emoji tintado por comida, tarjetas de receta con icono, estados vacíos, modales con desenfoque y animación de entrada, barra de pestañas fija abajo en móvil, día de hoy resaltado en la semana.
+- Cabecera con resumen de la semana (comidas planificadas, media diaria de kcal, ingredientes por comprar; `lib/summary.ts` con tests) y botón de modo claro/oscuro (`lib/theme.ts`, `state/useTheme.ts`; la elección se guarda en la clave `mesa-semanal-theme`, aparte del estado del dominio).
 
 ### Pendiente
 - Publicar de verdad: subir a GitHub e importar en Vercel (ver README).
