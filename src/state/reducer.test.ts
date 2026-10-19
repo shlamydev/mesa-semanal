@@ -67,6 +67,16 @@ describe('reducer', () => {
     })
   })
 
+  it('RESTORE recupera lo vaciado sin tocar el resto del estado', () => {
+    const before = { ...initialState, people: 4, plan: { '0l': 1 }, done: { 'Huevos|ud': true } }
+    const cleared = reducer(before, { type: 'CLEAR_WEEK' })
+    expect(cleared.plan).toEqual({})
+    const back = reducer({ ...cleared, people: 3 }, { type: 'RESTORE', patch: { plan: before.plan, done: before.done } })
+    expect(back.plan).toEqual({ '0l': 1 })
+    expect(back.done).toEqual({ 'Huevos|ud': true })
+    expect(back.people).toBe(3)
+  })
+
   describe('editar recetas propias', () => {
     const withOne = reducer(initialState, { type: 'ADD_CUSTOM', recipe: draft, slot: '0l' })
     const id = withOne.custom[0].id

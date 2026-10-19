@@ -51,4 +51,10 @@ export interface ShoppingItem {
   q: number
 }
 
+/** Muestra un aviso; con `undo` se ofrece un botón «Deshacer». */
+export type Notify = (msg: string, undo?: () => void) => void
+
+/** Parte del estado que se puede recuperar al deshacer. */
+export type Restorable = Partial<Pick<State, 'plan' | 'done' | 'custom'>>
+
 export type RecipeFilter = 'all' | 'fast' | 'v' | 'vg'

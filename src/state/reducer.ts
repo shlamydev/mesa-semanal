@@ -1,5 +1,5 @@
 import { DEFAULT_MEALS, MEAL_ORDER } from '../data/meals'
-import type { MealId, NewRecipe, Plan, Recipe, State } from '../types'
+import type { MealId, NewRecipe, Plan, Recipe, Restorable, State } from '../types'
 
 export const MIN_PEOPLE = 1
 export const MAX_PEOPLE = 12
@@ -25,6 +25,7 @@ export type Action =
   | { type: 'MOVE_SLOT'; from: string; to: string }
   | { type: 'SET_PLAN'; plan: Plan }
   | { type: 'CLEAR_WEEK' }
+  | { type: 'RESTORE'; patch: Restorable }
   | { type: 'TOGGLE_DONE'; key: string }
   | { type: 'TOGGLE_HAVE'; name: string }
   | { type: 'TOGGLE_MEAL'; meal: MealId }
@@ -69,6 +70,9 @@ export function reducer(state: State, action: Action): State {
 
     case 'CLEAR_WEEK':
       return { ...state, plan: {}, done: {} }
+
+    case 'RESTORE':
+      return { ...state, ...action.patch }
 
     case 'TOGGLE_DONE':
       return { ...state, done: { ...state.done, [action.key]: !state.done[action.key] } }

@@ -9,6 +9,7 @@ import { Semana } from './components/Semana'
 import { buildShoppingList, pendingCount } from './lib/shopping'
 import { StoreProvider } from './state/StoreProvider'
 import { useStore } from './state/useStore'
+import type { Notify } from './types'
 
 type Tab = 'week' | 'rec' | 'shop'
 type ModalState =
@@ -27,16 +28,17 @@ const TABS: { id: Tab; label: string }[] = [
 function Shell() {
   const { state, recipes } = useStore()
   const [tab, setTab] = useState<Tab>('week')
-  const [toast, setToast] = useState('')
+  const [toast, setToast] = useState<{ msg: string; undo?: () => void } | null>(null)
   const [modal, setModal] = useState<ModalState>(null)
   const timer = useRef<number>(undefined)
 
   useEffect(() => () => window.clearTimeout(timer.current), [])
 
-  const notify = (msg: string) => {
-    setToast(msg)
+  const notify: Notify = (msg, undo) => {
+    setToast({ msg, undo })
     window.clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => setToast(''), 1800)
+    // Con «Deshacer» el aviso dura más para dar tiempo a pulsarlo.
+    timer.current = window.setTimeout(() => setToast(null), undo ? 6000 : 1800)
   }
   const close = () => setModal(null)
 
@@ -99,7 +101,18 @@ function Shell() {
       )}
 
       <div className={`toast ${toast ? 'show' : ''}`} role="status" aria-live="polite">
-        {toast}
+        {toast?.msg}
+        {toast?.undo && (
+          <button
+            onClick={() => {
+              toast.undo?.()
+              window.clearTimeout(timer.current)
+              setToast(null)
+            }}
+          >
+            Deshacer
+          </button>
+        )}
       </div>
     </div>
   )

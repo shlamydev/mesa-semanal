@@ -89,4 +89,15 @@ describe('Semana', () => {
     await userEvent.click(screen.getByText('Tostada de aguacate y huevo'))
     expect(screen.queryByRole('progressbar', { name: /Objetivo de kcal/ })).not.toBeInTheDocument()
   })
+
+  it('Vaciar se puede deshacer desde el aviso', async () => {
+    render(<App />)
+    await userEvent.click(screen.getAllByText('+ Añadir')[0])
+    await userEvent.click(screen.getByText('Tostada de aguacate y huevo'))
+    await userEvent.click(screen.getByRole('button', { name: 'Vaciar' }))
+    expect(screen.getAllByText('+ Añadir')).toHaveLength(21)
+    await userEvent.click(screen.getByRole('button', { name: 'Deshacer' }))
+    expect(screen.getAllByText('+ Añadir')).toHaveLength(20)
+    expect(screen.queryByRole('button', { name: 'Deshacer' })).not.toBeInTheDocument()
+  })
 })

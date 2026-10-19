@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { formatKcalPerson, formatQty } from '../lib/format'
 import { scaleQty } from '../lib/shopping'
 import { useStore } from '../state/useStore'
+import type { Notify } from '../types'
 import { dietLabel } from './dietLabel'
 import { Modal } from './Modal'
 
@@ -10,7 +11,7 @@ interface Props {
   onClose: () => void
   /** Abre el formulario para editar una receta propia. */
   onEdit: (id: number) => void
-  notify: (msg: string) => void
+  notify: Notify
 }
 
 export function RecipeDetailModal({ id, onClose, onEdit, notify }: Props) {
@@ -72,8 +73,9 @@ export function RecipeDetailModal({ id, onClose, onEdit, notify }: Props) {
             <button
               className="btn danger"
               onClick={() => {
+                const patch = { custom: state.custom, plan: state.plan }
                 dispatch({ type: 'DELETE_CUSTOM', id: recipe.id })
-                notify(`Receta «${recipe.n}» eliminada`)
+                notify(`Receta «${recipe.n}» eliminada`, () => dispatch({ type: 'RESTORE', patch }))
                 onClose()
               }}
             >

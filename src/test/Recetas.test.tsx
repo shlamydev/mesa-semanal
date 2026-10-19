@@ -133,4 +133,22 @@ describe('Recetas propias', () => {
     expect(within(dialog).getByText('Hervir la leche')).toBeInTheDocument()
     expect(within(dialog).getByText('Añadir la harina')).toBeInTheDocument()
   })
+
+  it('eliminar una receta propia se puede deshacer y vuelve a su hueco', async () => {
+    render(<App />)
+    await userEvent.click(screen.getAllByText('+ Añadir')[0])
+    await userEvent.type(screen.getByLabelText('Buscar receta'), 'gachas')
+    await userEvent.click(screen.getByRole('button', { name: '+ Crear receta «gachas»' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Crear receta' }))
+    await openTab('Recetas')
+    await userEvent.click(screen.getByRole('button', { name: /gachas/ }))
+    await userEvent.click(screen.getByRole('button', { name: 'Eliminar receta' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Sí, eliminar' }))
+    expect(screen.queryByRole('button', { name: /gachas/ })).not.toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: 'Deshacer' }))
+    expect(screen.getByRole('button', { name: /gachas/ })).toBeInTheDocument()
+    await openTab('Semana')
+    expect(screen.getAllByText('+ Añadir')).toHaveLength(20)
+  })
 })

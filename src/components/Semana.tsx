@@ -5,11 +5,12 @@ import { dayKcal, goalProgress } from '../lib/nutrition'
 import { slotKey } from '../lib/slots'
 import { suggestPlan } from '../lib/suggest'
 import { useStore } from '../state/useStore'
+import type { Notify } from '../types'
 import '../styles/semana.css'
 
 interface Props {
   onPick: (slot: string) => void
-  notify: (msg: string) => void
+  notify: Notify
 }
 
 export function Semana({ onPick, notify }: Props) {
@@ -59,8 +60,9 @@ export function Semana({ onPick, notify }: Props) {
         <button
           className="btn"
           onClick={() => {
+            const patch = { plan: state.plan, done: state.done }
             dispatch({ type: 'CLEAR_WEEK' })
-            notify('Semana vaciada')
+            notify('Semana vaciada', () => dispatch({ type: 'RESTORE', patch }))
           }}
         >
           Vaciar

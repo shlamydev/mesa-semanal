@@ -97,9 +97,10 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Objetivo diario de kcal (`state.goal`, 0 = sin objetivo; acción `SET_GOAL`, límite `MAX_GOAL` = 6000): campo en la cabecera y barra de progreso por día en Semana, en rojo con el texto «+N sobre el objetivo» si se supera (`lib/nutrition.ts` → `goalProgress`). Los estados guardados sin `goal` se leen como 0.
 - Pasos de preparación (`Recipe.s`, opcional): las 16 recetas de serie los traen y se ven en el detalle. Recetas propias editables (acción `UPDATE_CUSTOM`, el formulario `NewRecipeModal` sirve para crear y editar; al guardar vuelve al detalle). Las de serie no se editan.
 - Exportar la lista de la compra (`lib/exportList.ts` con tests): copiar al portapapeles, compartir con Web Share (solo si el navegador lo soporta) e imprimir con estilos `@media print`. Solo exporta lo pendiente (ni en despensa ni comprado).
+- Deshacer: tras «Vaciar» y tras eliminar una receta propia el aviso ofrece «Deshacer» (6 s). Acción `RESTORE` con un parche parcial (`plan`, `done`, `custom`), así no pisa cambios hechos en medio (p. ej. las personas). Tipo `Notify` en `types.ts`.
 
 ### Pendiente de verdad: subir a GitHub e importar en Vercel (ver README).
-- Mejoras futuras de la sección "Siguientes mejoras" (deshacer, sincronización).
+- Mejoras futuras de la sección "Siguientes mejoras" (sincronización entre dispositivos, cuentas).
 
 ### Decisiones
 - `meals` en el estado guarda las comidas visibles en orden canónico (b, a, l, m, d); por defecto b, l, d como el prototipo.
