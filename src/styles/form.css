@@ -1,8 +1,8 @@
 .form{display:grid;gap:12px;margin-top:8px}
 .field{display:grid;gap:4px;border:0;padding:0;margin:0;min-width:0}
 .field label,.field legend{font-size:.85rem;font-weight:600;padding:0}
-.field textarea{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surf);color:var(--ink);font:inherit;resize:vertical}
-.field input,.field select{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surf);color:var(--ink);font:inherit}
+.field textarea{width:100%;padding:9px 12px;border:1px solid var(--line-2);border-radius:var(--r1);background:var(--surf);color:var(--ink);font:inherit;resize:vertical}
+.field input,.field select{width:100%;padding:9px 12px;border:1px solid var(--line-2);border-radius:var(--r1);background:var(--surf);color:var(--ink);font:inherit}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .checks{display:flex;flex-wrap:wrap;gap:6px 14px}
 .field .check{display:flex;align-items:center;gap:6px;font-weight:400;font-size:.95rem}

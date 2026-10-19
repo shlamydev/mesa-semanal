@@ -1,15 +1,13 @@
-.cat{background:var(--surf);border:1px solid var(--line);border-radius:var(--r2);padding:6px 16px 8px;margin-bottom:12px;box-shadow:var(--shadow)}
-.cat h3{font-size:.95rem;margin:10px 0 2px;font-weight:800}
+.shophead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:2px}
+.shophead .tools{margin:0}
+.cat{background:var(--surf);border:1px solid var(--line);border-radius:var(--r2);padding:4px 18px 6px;margin-bottom:12px}
+.cat h3{font-size:.78rem;margin:12px 0 4px;font-weight:600;color:var(--mute);letter-spacing:.01em}
 .it{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
 .it:first-of-type{border-top:0}
-.it input{width:22px;height:22px;accent-color:var(--ok)}
-.it label{flex:1;transition:color .2s}
-.it.done label{text-decoration:line-through;color:var(--mute)}
+.it input{width:18px;height:18px;accent-color:var(--acc);flex:none}
+.it label{flex:1;font-weight:500;transition:color .2s}
+.it.done label{text-decoration:line-through;text-decoration-color:var(--mute);color:var(--mute);font-weight:400}
 .it .q{font-variant-numeric:tabular-nums;color:var(--mute);font-size:.9rem;white-space:nowrap}
-.it .have{border:1px solid var(--line);background:none;border-radius:8px;font-size:.78rem;padding:4px 10px;color:var(--mute)}
-.it .have:hover{border-color:var(--mute);color:var(--ink)}
-.bar{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:6px 0 14px}
-.bar div{height:100%;background:var(--ok);border-radius:8px;transition:width .3s}
-.shophead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:4px}
-.shophead .tools{margin:0}
-@media print{nav,header,.toast,.bar{display:none!important}.cat{box-shadow:none;break-inside:avoid;border-color:#999}.wrap{padding:0}}
+.it .have{border:0;background:none;border-radius:6px;font-size:.8rem;padding:4px 8px;color:var(--mute);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-2)}
+.it .have:hover{color:var(--ink);background:var(--surf-2)}
+@media print{nav,header,.toast,.bar{display:none!important}.cat{break-inside:avoid;border-color:#999}.wrap{padding:0}}
