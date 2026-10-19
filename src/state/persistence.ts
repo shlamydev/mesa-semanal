@@ -1,6 +1,6 @@
 import { DEFAULT_MEALS, MEAL_ORDER } from '../data/meals'
 import type { Diet, Ingredient, MealId, Recipe, State } from '../types'
-import { initialState, MAX_PEOPLE, MIN_PEOPLE } from './reducer'
+import { initialState, MAX_GOAL, MAX_PEOPLE, MIN_PEOPLE } from './reducer'
 
 export const STORAGE_KEY = 'mesa-semanal'
 
@@ -11,6 +11,10 @@ function cleanPeople(v: unknown): number {
   return typeof v === 'number' && Number.isFinite(v)
     ? Math.min(MAX_PEOPLE, Math.max(MIN_PEOPLE, Math.round(v)))
     : initialState.people
+}
+
+function cleanGoal(v: unknown): number {
+  return typeof v === 'number' && Number.isFinite(v) ? Math.min(MAX_GOAL, Math.max(0, Math.round(v))) : 0
 }
 
 function cleanPlan(v: unknown): Record<string, number> {
@@ -72,6 +76,7 @@ export function sanitizeState(raw: unknown): State {
     done: cleanFlags(raw.done),
     have: cleanFlags(raw.have),
     meals: cleanMeals(raw.meals),
+    goal: cleanGoal(raw.goal),
     custom: Array.isArray(raw.custom) ? raw.custom.map(cleanRecipe).filter((r): r is Recipe => r !== null) : [],
   }
 }

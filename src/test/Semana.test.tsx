@@ -73,4 +73,20 @@ describe('Semana', () => {
     await userEvent.click(meal('Merienda'))
     expect(screen.getAllByText('+ Añadir')).toHaveLength(7)
   })
+
+  it('con objetivo diario muestra el progreso del día y avisa si se supera', async () => {
+    render(<App />)
+    await userEvent.type(screen.getByLabelText('Objetivo diario'), '300')
+    await userEvent.click(screen.getAllByText('+ Añadir')[0]) // lunes, desayuno
+    await userEvent.click(screen.getByText('Tostada de aguacate y huevo')) // 380 kcal
+    expect(screen.getByRole('progressbar', { name: 'Objetivo de kcal del lunes' })).toHaveAttribute('aria-valuenow', '100')
+    expect(screen.getByText('+80 sobre el objetivo')).toBeInTheDocument()
+  })
+
+  it('sin objetivo no hay barra por día', async () => {
+    render(<App />)
+    await userEvent.click(screen.getAllByText('+ Añadir')[0])
+    await userEvent.click(screen.getByText('Tostada de aguacate y huevo'))
+    expect(screen.queryByRole('progressbar', { name: /Objetivo de kcal/ })).not.toBeInTheDocument()
+  })
 })

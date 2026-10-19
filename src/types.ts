@@ -38,6 +38,8 @@ export interface State {
   /** comidas visibles, en orden canónico (nunca vacío) */
   meals: MealId[]
   custom: Recipe[]
+  /** objetivo diario de kcal por persona; 0 = sin objetivo */
+  goal: number
 }
 
 export interface ShoppingItem {

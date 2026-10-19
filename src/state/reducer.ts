@@ -3,6 +3,7 @@ import type { MealId, NewRecipe, Plan, Recipe, State } from '../types'
 
 export const MIN_PEOPLE = 1
 export const MAX_PEOPLE = 12
+export const MAX_GOAL = 6000
 /** Las recetas propias empiezan en este id para no chocar con las de serie. */
 const FIRST_CUSTOM_ID = 1000
 
@@ -13,10 +14,12 @@ export const initialState: State = {
   have: {},
   meals: [...DEFAULT_MEALS],
   custom: [],
+  goal: 0,
 }
 
 export type Action =
   | { type: 'SET_PEOPLE'; people: number }
+  | { type: 'SET_GOAL'; goal: number }
   | { type: 'SET_SLOT'; slot: string; recipeId: number }
   | { type: 'REMOVE_SLOT'; slot: string }
   | { type: 'MOVE_SLOT'; from: string; to: string }
@@ -35,6 +38,11 @@ export function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'SET_PEOPLE':
       return { ...state, people: Math.min(MAX_PEOPLE, Math.max(MIN_PEOPLE, Math.round(action.people))) }
+
+    case 'SET_GOAL': {
+      const goal = Number.isFinite(action.goal) ? Math.round(action.goal) : 0
+      return { ...state, goal: Math.min(MAX_GOAL, Math.max(0, goal)) }
+    }
 
     case 'SET_SLOT':
       return { ...state, plan: { ...state.plan, [action.slot]: action.recipeId } }

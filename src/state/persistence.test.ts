@@ -27,6 +27,13 @@ describe('persistencia', () => {
     expect(s.custom).toEqual([])
   })
 
+  it('recupera el objetivo de kcal y sanea valores inválidos', () => {
+    expect(sanitizeState({ goal: 1800 }).goal).toBe(1800)
+    expect(sanitizeState({ goal: 'x' }).goal).toBe(0)
+    expect(sanitizeState({ goal: -3 }).goal).toBe(0)
+    expect(sanitizeState({}).goal).toBe(0) // estados guardados antes de existir el objetivo
+  })
+
   it('ignora JSON roto', () => {
     localStorage.setItem(STORAGE_KEY, '{no es json')
     expect(loadState()).toEqual(initialState)

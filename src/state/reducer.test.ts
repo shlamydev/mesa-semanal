@@ -1,5 +1,5 @@
 import type { NewRecipe } from '../types'
-import { initialState, MAX_PEOPLE, nextCustomId, reducer } from './reducer'
+import { initialState, MAX_GOAL, MAX_PEOPLE, nextCustomId, reducer } from './reducer'
 
 const draft: NewRecipe = { n: 'Mi receta', e: '🍲', t: 20, tg: ['v'], m: 'l', k: 400, ing: [['Sal', 1, 'g', 'Despensa']] }
 
@@ -8,6 +8,14 @@ describe('reducer', () => {
     expect(reducer(initialState, { type: 'SET_PEOPLE', people: 0 }).people).toBe(1)
     expect(reducer(initialState, { type: 'SET_PEOPLE', people: 99 }).people).toBe(MAX_PEOPLE)
     expect(reducer(initialState, { type: 'SET_PEOPLE', people: 5 }).people).toBe(5)
+  })
+
+  it('el objetivo de kcal se limita y 0 significa sin objetivo', () => {
+    expect(initialState.goal).toBe(0)
+    expect(reducer(initialState, { type: 'SET_GOAL', goal: 2000 }).goal).toBe(2000)
+    expect(reducer(initialState, { type: 'SET_GOAL', goal: -50 }).goal).toBe(0)
+    expect(reducer(initialState, { type: 'SET_GOAL', goal: 99999 }).goal).toBe(MAX_GOAL)
+    expect(reducer(initialState, { type: 'SET_GOAL', goal: Number.NaN }).goal).toBe(0)
   })
 
   it('asigna y quita recetas de un hueco', () => {

@@ -4,7 +4,7 @@
 .week{display:grid;gap:12px}
 .day{background:var(--surf);border:1px solid var(--line);border-radius:var(--r2);padding:12px;display:grid;gap:8px;box-shadow:var(--shadow)}
 .day h3{margin:0;font-size:1.05rem;font-weight:800;letter-spacing:-.01em}
-.dayhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.dayhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 8px}
 .dayhead .today{font-size:.72rem;font-weight:700;background:var(--acc);color:var(--acc-ink);border-radius:999px;padding:0 8px;margin-left:6px;vertical-align:middle}
 .slots{display:grid;gap:8px}
 .slot{position:relative;min-height:64px;border-radius:12px;border:1.5px dashed var(--line);background:transparent;text-align:left;padding:8px 32px 8px 12px;display:flex;flex-direction:column;justify-content:center;gap:2px;transition:border-color .15s,background .15s,transform .15s}
@@ -37,3 +37,8 @@ button.slot:hover{border-color:var(--acc);background:color-mix(in srgb,var(--acc
  .slot{background:var(--surf);border-radius:var(--r2)}
 }
 @media(max-width:759px){.colh{display:none}}
+.goalbar{display:grid;gap:2px;width:100%}
+.goalbar .track{display:block;height:5px;border-radius:5px;background:var(--line);overflow:hidden;min-width:70px}
+.goalbar .track span{display:block;height:100%;background:var(--ok);border-radius:5px;transition:width .25s}
+.goalbar.over .track span{background:var(--warn)}
+.goalbar.over .meta{color:var(--warn);font-weight:600}

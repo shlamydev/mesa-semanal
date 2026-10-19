@@ -1,7 +1,7 @@
 import { formatKcal } from '../lib/format'
 import { buildShoppingList, pendingCount } from '../lib/shopping'
 import { weekSummary } from '../lib/summary'
-import { MAX_PEOPLE, MIN_PEOPLE } from '../state/reducer'
+import { MAX_GOAL, MAX_PEOPLE, MIN_PEOPLE } from '../state/reducer'
 import { useStore } from '../state/useStore'
 import { useTheme } from '../state/useTheme'
 import '../styles/cabecera.css'
@@ -56,6 +56,25 @@ export function Cabecera() {
         <div>
           <dt>Media diaria</dt>
           <dd>{avgKcal > 0 ? `${formatKcal(avgKcal)} por persona` : 'Sin datos aún'}</dd>
+        </div>
+        <div>
+          <dt>
+            <label htmlFor="goal">Objetivo diario</label>
+          </dt>
+          <dd className="goal">
+            <input
+              id="goal"
+              type="number"
+              inputMode="numeric"
+              min={0}
+              max={MAX_GOAL}
+              step={50}
+              placeholder="Sin objetivo"
+              value={state.goal || ''}
+              onChange={(e) => dispatch({ type: 'SET_GOAL', goal: Number(e.target.value) })}
+            />
+            <span>kcal</span>
+          </dd>
         </div>
         <div>
           <dt>Por comprar</dt>

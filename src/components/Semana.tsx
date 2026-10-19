@@ -1,7 +1,7 @@
 import { useMemo, useState, type CSSProperties, type DragEvent, type KeyboardEvent } from 'react'
 import { DAYS, MEALS, type Meal } from '../data/meals'
 import { formatKcal, formatKcalPerson } from '../lib/format'
-import { dayKcal } from '../lib/nutrition'
+import { dayKcal, goalProgress } from '../lib/nutrition'
 import { slotKey } from '../lib/slots'
 import { suggestPlan } from '../lib/suggest'
 import { useStore } from '../state/useStore'
@@ -91,6 +91,7 @@ export function Semana({ onPick, notify }: Props) {
         ))}
         {DAYS.map((dayName, day) => {
           const kcal = dayKcal(plan, recipes, day, meals)
+          const goal = kcal > 0 ? goalProgress(kcal, state.goal) : null
           return (
             <div className="day" key={dayName}>
               <div className="dayhead">
@@ -99,6 +100,21 @@ export function Semana({ onPick, notify }: Props) {
                   {day === today && <span className="today">Hoy</span>}
                 </h3>
                 {kcal > 0 && <span className="meta">{formatKcal(kcal)}</span>}
+                {goal && (
+                  <span className={`goalbar ${goal.over > 0 ? 'over' : ''}`}>
+                    <span
+                      className="track"
+                      role="progressbar"
+                      aria-label={`Objetivo de kcal del ${dayName.toLowerCase()}`}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={goal.pct}
+                    >
+                      <span style={{ width: `${goal.pct}%` }} />
+                    </span>
+                    {goal.over > 0 && <span className="meta">+{goal.over} sobre el objetivo</span>}
+                  </span>
+                )}
               </div>
               <div className="slots">
                 {active.map((m) => {

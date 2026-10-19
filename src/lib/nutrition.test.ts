@@ -1,5 +1,5 @@
 import type { Recipe } from '../types'
-import { dayKcal } from './nutrition'
+import { dayKcal, goalProgress } from './nutrition'
 
 const mk = (id: number, k: number): Recipe => ({ id, n: 'r', e: 'x', t: 5, tg: [], m: 'bald', k, ing: [] })
 const recipes = [mk(1, 300), mk(2, 500)]
@@ -16,5 +16,17 @@ describe('dayKcal', () => {
   })
   it('devuelve 0 si no hay nada', () => {
     expect(dayKcal({}, recipes, 3, ['b', 'l'])).toBe(0)
+  })
+})
+
+describe('goalProgress', () => {
+  it('sin objetivo no hay progreso', () => {
+    expect(goalProgress(800, 0)).toBeNull()
+  })
+  it('calcula el porcentaje cubierto', () => {
+    expect(goalProgress(1000, 2000)).toEqual({ pct: 50, over: 0 })
+  })
+  it('limita a 100 % e indica las kcal de más', () => {
+    expect(goalProgress(2300, 2000)).toEqual({ pct: 100, over: 300 })
   })
 })
