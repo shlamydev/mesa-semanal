@@ -96,9 +96,10 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Cabecera con resumen de la semana (comidas planificadas, media diaria de kcal, ingredientes por comprar; `lib/summary.ts` con tests) y botón de modo claro/oscuro (`lib/theme.ts`, `state/useTheme.ts`; la elección se guarda en la clave `mesa-semanal-theme`, aparte del estado del dominio).
 - Objetivo diario de kcal (`state.goal`, 0 = sin objetivo; acción `SET_GOAL`, límite `MAX_GOAL` = 6000): campo en la cabecera y barra de progreso por día en Semana, en rojo con el texto «+N sobre el objetivo» si se supera (`lib/nutrition.ts` → `goalProgress`). Los estados guardados sin `goal` se leen como 0.
 - Pasos de preparación (`Recipe.s`, opcional): las 16 recetas de serie los traen y se ven en el detalle. Recetas propias editables (acción `UPDATE_CUSTOM`, el formulario `NewRecipeModal` sirve para crear y editar; al guardar vuelve al detalle). Las de serie no se editan.
+- Exportar la lista de la compra (`lib/exportList.ts` con tests): copiar al portapapeles, compartir con Web Share (solo si el navegador lo soporta) e imprimir con estilos `@media print`. Solo exporta lo pendiente (ni en despensa ni comprado).
 
 ### Pendiente de verdad: subir a GitHub e importar en Vercel (ver README).
-- Mejoras futuras de la sección "Siguientes mejoras" (exportar la lista de la compra, deshacer).
+- Mejoras futuras de la sección "Siguientes mejoras" (deshacer, sincronización).
 
 ### Decisiones
 - `meals` en el estado guarda las comidas visibles en orden canónico (b, a, l, m, d); por defecto b, l, d como el prototipo.

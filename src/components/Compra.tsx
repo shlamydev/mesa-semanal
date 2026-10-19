@@ -1,10 +1,15 @@
 import { useId, useMemo } from 'react'
+import { shoppingListText } from '../lib/exportList'
 import { formatQty } from '../lib/format'
 import { buildShoppingList, groupBySection, itemKey } from '../lib/shopping'
 import { useStore } from '../state/useStore'
 import '../styles/compra.css'
 
-export function Compra() {
+interface Props {
+  notify: (msg: string) => void
+}
+
+export function Compra({ notify }: Props) {
   const { state, dispatch, recipes } = useStore()
   const uid = useId()
   const { plan, people, meals, have, done } = state
@@ -30,10 +35,46 @@ export function Compra() {
   const bought = need.filter((i) => done[itemKey(i.n, i.u)]).length
   const pct = Math.round((bought / Math.max(need.length, 1)) * 100)
 
+  const text = shoppingListText(items, have, done, people)
+  const canShare = typeof navigator.share === 'function'
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(text)
+      notify('Lista copiada')
+    } catch {
+      notify('No se pudo copiar la lista')
+    }
+  }
+  const share = async () => {
+    try {
+      await navigator.share({ title: 'Lista de la compra', text })
+    } catch {
+      // El usuario canceló el diálogo de compartir: no hay nada que avisar.
+    }
+  }
+
   return (
     <>
-      <div className="hint">
-        {bought} de {need.length} comprados
+      <div className="shophead">
+        <div className="hint">
+          {bought} de {need.length} comprados
+        </div>
+        {text && (
+          <div className="tools noprint">
+            <button className="btn" onClick={copy}>
+              Copiar lista
+            </button>
+            {canShare && (
+              <button className="btn" onClick={share}>
+                Compartir
+              </button>
+            )}
+            <button className="btn" onClick={() => window.print()}>
+              Imprimir
+            </button>
+          </div>
+        )}
       </div>
       <div className="bar" role="progressbar" aria-label="Progreso de la compra" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}>
         <div style={{ width: `${pct}%` }} />

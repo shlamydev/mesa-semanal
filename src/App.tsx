@@ -69,7 +69,7 @@ function Shell() {
         {tab === 'rec' && (
           <Recetas onOpen={(id) => setModal({ kind: 'recipe', id })} onNew={(name) => setModal({ kind: 'new', name })} />
         )}
-        {tab === 'shop' && <Compra />}
+        {tab === 'shop' && <Compra notify={notify} />}
       </main>
 
       {modal?.kind === 'pick' && (

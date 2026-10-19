@@ -10,5 +10,6 @@
 .it .have:hover{border-color:var(--mute);color:var(--ink)}
 .bar{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:6px 0 14px}
 .bar div{height:100%;background:var(--ok);border-radius:8px;transition:width .3s}
-.shophead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
-@media print{.shophead .tools,nav,header,.toast{display:none!important}.cat{box-shadow:none;break-inside:avoid}}
+.shophead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:4px}
+.shophead .tools{margin:0}
+@media print{nav,header,.toast,.bar{display:none!important}.cat{box-shadow:none;break-inside:avoid;border-color:#999}.wrap{padding:0}}
