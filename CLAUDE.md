@@ -99,6 +99,7 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Exportar la lista de la compra (`lib/exportList.ts` con tests): copiar al portapapeles, compartir con Web Share (solo si el navegador lo soporta) e imprimir con estilos `@media print`. Solo exporta lo pendiente (ni en despensa ni comprado).
 - Deshacer: tras «Vaciar» y tras eliminar una receta propia el aviso ofrece «Deshacer» (6 s). Acción `RESTORE` con un parche parcial (`plan`, `done`, `custom`), así no pisa cambios hechos en medio (p. ej. las personas). Tipo `Notify` en `types.ts`.
 - Rediseño sobrio v2 (2026-10-20), sustituye al visual anterior: paleta neutra (fondo piedra, texto grafito verdoso) con un único acento verde pino; los colores de comida quedan como marca fina apagada. Tipografía Geist. Tokens en `styles/tokens.css` (`--acc`, `--acc-soft`, `--line-2`, radios `--r1..3`), sin sombras salvo en hover/modales.
+- Semana con fechas reales (`lib/week.ts`, con tests): título «Semana del 19 al 25 de octubre», número de día y marca «Hoy». Cabecera con logotipo e iconos SVG (`components/Icons.tsx`), resumen en una sola barra y pestañas subrayadas. Los huecos rellenos llevan una barra de color de la comida; animación de «sello» solo al rellenar un hueco tras cargar.
 
 ### Pendiente de verdad: subir a GitHub e importar en Vercel (ver README).
 - Mejoras futuras de la sección "Siguientes mejoras" (sincronización entre dispositivos, cuentas).

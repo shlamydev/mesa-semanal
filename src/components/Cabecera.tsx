@@ -1,6 +1,7 @@
 import { formatKcal } from '../lib/format'
 import { buildShoppingList, pendingCount } from '../lib/shopping'
 import { weekSummary } from '../lib/summary'
+import { LogoMark, MoonIcon, SunIcon } from './Icons'
 import { MAX_GOAL, MAX_PEOPLE, MIN_PEOPLE } from '../state/reducer'
 import { useStore } from '../state/useStore'
 import { useTheme } from '../state/useTheme'
@@ -22,8 +23,8 @@ export function Cabecera() {
   return (
     <header>
       <div className="brand">
+        <LogoMark />
         <h1>Mesa Semanal</h1>
-        <p className="hint">Planifica tus comidas y compra solo lo que necesitas.</p>
       </div>
       <div className="headtools">
         <div className="people" role="group" aria-label="Número de personas">
@@ -41,7 +42,7 @@ export function Cabecera() {
           aria-label={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
           onClick={toggleTheme}
         >
-          {theme === 'dark' ? '☀️' : '🌙'}
+          {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
         </button>
       </div>
 

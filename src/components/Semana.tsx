@@ -1,9 +1,10 @@
-import { useMemo, useState, type CSSProperties, type DragEvent, type KeyboardEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type DragEvent, type KeyboardEvent } from 'react'
 import { DAYS, MEALS, type Meal } from '../data/meals'
 import { formatKcal, formatKcalPerson } from '../lib/format'
 import { dayKcal, goalProgress } from '../lib/nutrition'
 import { slotKey } from '../lib/slots'
 import { suggestPlan } from '../lib/suggest'
+import { weekDates, weekLabel } from '../lib/week'
 import { useStore } from '../state/useStore'
 import type { Notify } from '../types'
 import '../styles/semana.css'
@@ -17,9 +18,17 @@ export function Semana({ onPick, notify }: Props) {
   const { state, dispatch, recipes } = useStore()
   const { meals, plan } = state
   const [over, setOver] = useState<string | null>(null)
+  const weekRef = useRef<HTMLDivElement>(null)
   const byId = useMemo(() => new Map(recipes.map((r) => [r.id, r])), [recipes])
   const active = MEALS.filter((m) => meals.includes(m.id))
-  const [today] = useState(() => (new Date().getDay() + 6) % 7) // lunes = 0
+  const [now] = useState(() => new Date())
+  const dates = useMemo(() => weekDates(now), [now])
+  const today = (now.getDay() + 6) % 7 // lunes = 0
+
+  // La animación de «sello» solo debe verse en huecos que se rellenan después de cargar la vista.
+  useEffect(() => {
+    weekRef.current?.classList.add('live')
+  }, [])
 
   const toggleMeal = (meal: Meal) => {
     if (meals.length === 1 && meals.includes(meal.id)) {
@@ -47,31 +56,34 @@ export function Semana({ onPick, notify }: Props) {
 
   return (
     <>
-      <div className="tools">
-        <button
-          className="btn pri"
-          onClick={() => {
-            dispatch({ type: 'SET_PLAN', plan: suggestPlan(recipes, meals, plan) })
-            notify('Semana completada con sugerencias')
-          }}
-        >
-          Sugerir semana
-        </button>
-        <button
-          className="btn"
-          onClick={() => {
-            const patch = { plan: state.plan, done: state.done }
-            dispatch({ type: 'CLEAR_WEEK' })
-            notify('Semana vaciada', () => dispatch({ type: 'RESTORE', patch }))
-          }}
-        >
-          Vaciar
-        </button>
-        <span className="hint">
-          Toca un hueco para elegir receta. Arrastra una comida para moverla o intercambiarla. Las kcal son
-          aproximadas y por persona.
-        </span>
+      <div className="weekhead">
+        <h2>{weekLabel(dates)}</h2>
+        <div className="tools">
+          <button
+            className="btn pri"
+            onClick={() => {
+              dispatch({ type: 'SET_PLAN', plan: suggestPlan(recipes, meals, plan) })
+              notify('Semana completada con sugerencias')
+            }}
+          >
+            Sugerir semana
+          </button>
+          <button
+            className="btn"
+            onClick={() => {
+              const patch = { plan: state.plan, done: state.done }
+              dispatch({ type: 'CLEAR_WEEK' })
+              notify('Semana vaciada', () => dispatch({ type: 'RESTORE', patch }))
+            }}
+          >
+            Vaciar
+          </button>
+        </div>
       </div>
+      <p className="hint weekhint">
+        Toca un hueco para elegir receta. Arrastra una comida para moverla o intercambiarla. Las kcal son aproximadas
+        y por persona.
+      </p>
 
       <div className="mealbar" role="group" aria-label="Comidas que se muestran">
         <span className="hint">Comidas:</span>
@@ -83,7 +95,7 @@ export function Semana({ onPick, notify }: Props) {
         ))}
       </div>
 
-      <div className="week" style={{ '--cols': active.length } as CSSProperties}>
+      <div className="week" ref={weekRef} style={{ '--cols': active.length } as CSSProperties}>
         <div />
         {active.map((m) => (
           <div className="colh" key={m.id}>
@@ -97,26 +109,29 @@ export function Semana({ onPick, notify }: Props) {
           return (
             <div className="day" key={dayName}>
               <div className="dayhead">
-                <h3>
-                  {dayName}
-                  {day === today && <span className="today">Hoy</span>}
-                </h3>
-                {kcal > 0 && <span className="meta">{formatKcal(kcal)}</span>}
-                {goal && (
-                  <span className={`goalbar ${goal.over > 0 ? 'over' : ''}`}>
-                    <span
-                      className="track"
-                      role="progressbar"
-                      aria-label={`Objetivo de kcal del ${dayName.toLowerCase()}`}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-valuenow={goal.pct}
-                    >
-                      <span style={{ width: `${goal.pct}%` }} />
+                <span className={`dnum ${day === today ? 'is-today' : ''}`}>{dates[day].getDate()}</span>
+                <div className="dinfo">
+                  <h3>
+                    {dayName}
+                    {day === today && <span className="today">Hoy</span>}
+                  </h3>
+                  {kcal > 0 && <span className="meta">{formatKcal(kcal)}</span>}
+                  {goal && (
+                    <span className={`goalbar ${goal.over > 0 ? 'over' : ''}`}>
+                      <span
+                        className="track"
+                        role="progressbar"
+                        aria-label={`Objetivo de kcal del ${dayName.toLowerCase()}`}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-valuenow={goal.pct}
+                      >
+                        <span style={{ width: `${goal.pct}%` }} />
+                      </span>
+                      {goal.over > 0 && <span className="meta">+{goal.over} sobre el objetivo</span>}
                     </span>
-                    {goal.over > 0 && <span className="meta">+{goal.over} sobre el objetivo</span>}
-                  </span>
-                )}
+                  )}
+                </div>
               </div>
               <div className="slots">
                 {active.map((m) => {
@@ -146,7 +161,7 @@ export function Semana({ onPick, notify }: Props) {
                   }
                   return (
                     <div
-                      key={key}
+                      key={`${key}-${recipe.id}`}
                       className={cls}
                       data-k={key}
                       role="button"
