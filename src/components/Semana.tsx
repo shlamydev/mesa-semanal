@@ -18,6 +18,7 @@ export function Semana({ onPick, notify }: Props) {
   const [over, setOver] = useState<string | null>(null)
   const byId = useMemo(() => new Map(recipes.map((r) => [r.id, r])), [recipes])
   const active = MEALS.filter((m) => meals.includes(m.id))
+  const [today] = useState(() => (new Date().getDay() + 6) % 7) // lunes = 0
 
   const toggleMeal = (meal: Meal) => {
     if (meals.length === 1 && meals.includes(meal.id)) {
@@ -93,7 +94,10 @@ export function Semana({ onPick, notify }: Props) {
           return (
             <div className="day" key={dayName}>
               <div className="dayhead">
-                <h3>{dayName}</h3>
+                <h3>
+                  {dayName}
+                  {day === today && <span className="today">Hoy</span>}
+                </h3>
                 {kcal > 0 && <span className="meta">{formatKcal(kcal)}</span>}
               </div>
               <div className="slots">
@@ -111,7 +115,7 @@ export function Semana({ onPick, notify }: Props) {
                     return (
                       <button key={key} className={cls} data-k={key} onClick={() => onPick(key)} {...dropProps(key)}>
                         {label}
-                        <span className="empty">+ Añadir</span>
+                        <span className="add">+ Añadir</span>
                       </button>
                     )
                   }
@@ -137,12 +141,15 @@ export function Semana({ onPick, notify }: Props) {
                       onDragStart={(e) => e.dataTransfer.setData('text/plain', key)}
                       {...dropProps(key)}
                     >
-                      {label}
-                      <span className="n">
-                        {recipe.e} {recipe.n}
+                      <span className="em" aria-hidden="true">
+                        {recipe.e}
                       </span>
-                      <span className="meta">
-                        {recipe.t} min · {formatKcalPerson(recipe.k)}
+                      {label}
+                      <span className="txt">
+                        <span className="n">{recipe.n}</span>
+                        <span className="meta">
+                          {recipe.t} min · {formatKcalPerson(recipe.k)}
+                        </span>
                       </span>
                       <button
                         className="x"

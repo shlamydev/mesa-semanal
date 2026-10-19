@@ -4,7 +4,7 @@ Planificador de comidas semanal con lista de la compra automática. El punto de 
 
 ## Objetivo
 
-Convertir el prototipo en una web mantenible, sin cambiar su aspecto ni su comportamiento, y dejarla lista para desplegar.
+Convertir el prototipo en una web mantenible y dejarla lista para desplegar. La migración inicial mantuvo el aspecto del prototipo; después (ver "Progreso") se rediseñó la interfaz y se añadieron mejoras para la presentación, sin romper las reglas de negocio.
 
 ## Stack
 
@@ -91,6 +91,8 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 
 - Comprobado en navegador real (5 comidas, kcal por día, estilo idéntico al prototipo).
 - Despliegue preparado: `vercel.json` y `README.md` con los pasos (Vercel o Netlify).
+
+- Rediseño visual (2026-10-19): tokens nuevos (`--surf-2`, `--ok`, radios y sombra), huecos con recuadro de emoji tintado por comida, tarjetas de receta con icono, estados vacíos, modales con desenfoque y animación de entrada, barra de pestañas fija abajo en móvil, día de hoy resaltado en la semana.
 
 ### Pendiente
 - Publicar de verdad: subir a GitHub e importar en Vercel (ver README).

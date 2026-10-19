@@ -43,7 +43,7 @@ export function Recetas({ onOpen, onNew }: Props) {
               {r.t} min · {r.ing.length === 0 ? 'sin ingredientes' : `${r.ing.length} ${r.ing.length === 1 ? 'ingrediente' : 'ingredientes'}`}
             </span>
             <span className="meta">{formatKcalPerson(r.k)}</span>
-            <span>
+            <span className="tags">
               {r.custom && <span className="tag">Propia</span>}
               {r.tg.map((t) => (
                 <span className="tag" key={t}>

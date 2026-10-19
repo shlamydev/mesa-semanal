@@ -13,10 +13,15 @@ export function Compra() {
 
   if (!items.length) {
     return (
-      <p className="empty">
-        Tu lista está vacía. Añade comidas en la pestaña Semana y los ingredientes aparecerán aquí, sumados y
-        ajustados a {people} {people === 1 ? 'persona' : 'personas'}.
-      </p>
+      <div className="emptystate">
+        <span className="big" aria-hidden="true">
+          🛒
+        </span>
+        <p>
+          Tu lista está vacía. Añade comidas en la pestaña Semana y los ingredientes aparecerán aquí, sumados y
+          ajustados a {people} {people === 1 ? 'persona' : 'personas'}.
+        </p>
+      </div>
     )
   }
 
