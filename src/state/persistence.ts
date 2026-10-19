@@ -54,6 +54,7 @@ function cleanRecipe(v: unknown): Recipe | null {
     !Array.isArray(ing)
   )
     return null
+  const steps = Array.isArray(v.s) ? v.s.filter((x): x is string => typeof x === 'string' && x.trim() !== '') : []
   return {
     id,
     n,
@@ -63,6 +64,7 @@ function cleanRecipe(v: unknown): Recipe | null {
     m,
     tg: tg.filter((d): d is Diet => d === 'v' || d === 'vg'),
     ing: ing.map(cleanIngredient).filter((i): i is Ingredient => i !== null),
+    ...(steps.length ? { s: steps } : {}),
     custom: true,
   }
 }

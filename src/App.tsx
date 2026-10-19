@@ -15,6 +15,7 @@ type ModalState =
   | { kind: 'pick'; slot: string }
   | { kind: 'recipe'; id: number }
   | { kind: 'new'; slot?: string; name?: string }
+  | { kind: 'edit'; id: number }
   | null
 
 const TABS: { id: Tab; label: string }[] = [
@@ -78,7 +79,21 @@ function Shell() {
           onCreate={(name) => setModal({ kind: 'new', slot: modal.slot, name })}
         />
       )}
-      {modal?.kind === 'recipe' && <RecipeDetailModal id={modal.id} onClose={close} notify={notify} />}
+      {modal?.kind === 'recipe' && (
+        <RecipeDetailModal
+          id={modal.id}
+          onClose={close}
+          onEdit={(id) => setModal({ kind: 'edit', id })}
+          notify={notify}
+        />
+      )}
+      {modal?.kind === 'edit' && (
+        <NewRecipeModal
+          recipe={recipes.find((r) => r.id === modal.id)}
+          onClose={() => setModal({ kind: 'recipe', id: modal.id })}
+          notify={notify}
+        />
+      )}
       {modal?.kind === 'new' && (
         <NewRecipeModal slot={modal.slot} initialName={modal.name} onClose={close} notify={notify} />
       )}

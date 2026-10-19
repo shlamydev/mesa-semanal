@@ -100,4 +100,37 @@ describe('Recetas propias', () => {
     expect(within(screen.getByRole('tabpanel')).queryByText('gachas', { exact: false })).not.toBeInTheDocument()
     expect(screen.getAllByText('+ Añadir')).toHaveLength(21)
   })
+
+  it('las recetas de serie muestran sus pasos y no se pueden editar', async () => {
+    render(<App />)
+    await openTab('Recetas')
+    await userEvent.click(screen.getByRole('button', { name: /Tortilla de patatas/ }))
+    const dialog = screen.getByRole('dialog')
+    expect(within(dialog).getByText('Preparación')).toBeInTheDocument()
+    expect(within(dialog).getByText(/Pela y corta las patatas/)).toBeInTheDocument()
+    expect(within(dialog).queryByRole('button', { name: 'Editar receta' })).not.toBeInTheDocument()
+  })
+
+  it('se puede editar una receta propia: cambia el nombre y añade pasos', async () => {
+    render(<App />)
+    await openTab('Recetas')
+    await userEvent.click(screen.getByRole('button', { name: '+ Nueva receta' }))
+    await userEvent.type(screen.getByLabelText('Nombre'), 'Gachas')
+    await userEvent.click(screen.getByRole('button', { name: 'Crear receta' }))
+
+    await userEvent.click(screen.getByRole('button', { name: /Gachas/ }))
+    await userEvent.click(screen.getByRole('button', { name: 'Editar receta' }))
+    const name = screen.getByLabelText('Nombre')
+    expect(name).toHaveValue('Gachas')
+    await userEvent.clear(name)
+    await userEvent.type(name, 'Gachas dulces')
+    await userEvent.type(screen.getByLabelText(/Pasos de preparación/), 'Hervir la leche{Enter}Añadir la harina')
+    await userEvent.click(screen.getByRole('button', { name: 'Guardar cambios' }))
+
+    // vuelve al detalle con los datos nuevos
+    const dialog = screen.getByRole('dialog')
+    expect(within(dialog).getByText(/Gachas dulces/)).toBeInTheDocument()
+    expect(within(dialog).getByText('Hervir la leche')).toBeInTheDocument()
+    expect(within(dialog).getByText('Añadir la harina')).toBeInTheDocument()
+  })
 })

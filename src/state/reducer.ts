@@ -29,6 +29,7 @@ export type Action =
   | { type: 'TOGGLE_HAVE'; name: string }
   | { type: 'TOGGLE_MEAL'; meal: MealId }
   | { type: 'ADD_CUSTOM'; recipe: NewRecipe; slot?: string }
+  | { type: 'UPDATE_CUSTOM'; id: number; recipe: NewRecipe }
   | { type: 'DELETE_CUSTOM'; id: number }
 
 export const nextCustomId = (custom: readonly Recipe[]): number =>
@@ -89,6 +90,12 @@ export function reducer(state: State, action: Action): State {
       const recipe: Recipe = { ...action.recipe, id: nextCustomId(state.custom), custom: true }
       const plan = action.slot ? { ...state.plan, [action.slot]: recipe.id } : state.plan
       return { ...state, custom: [...state.custom, recipe], plan }
+    }
+
+    case 'UPDATE_CUSTOM': {
+      if (!state.custom.some((r) => r.id === action.id)) return state
+      const updated: Recipe = { ...action.recipe, id: action.id, custom: true }
+      return { ...state, custom: state.custom.map((r) => (r.id === action.id ? updated : r)) }
     }
 
     case 'DELETE_CUSTOM': {

@@ -21,6 +21,8 @@ export interface Recipe {
   ing: Ingredient[]
   /** kcal aproximadas por persona */
   k: number
+  /** pasos de preparación (opcional) */
+  s?: string[]
   /** true en las recetas creadas por el usuario */
   custom?: boolean
 }

@@ -95,9 +95,10 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Rediseño visual (2026-10-19): tokens nuevos (`--surf-2`, `--ok`, radios y sombra), huecos con recuadro de emoji tintado por comida, tarjetas de receta con icono, estados vacíos, modales con desenfoque y animación de entrada, barra de pestañas fija abajo en móvil, día de hoy resaltado en la semana.
 - Cabecera con resumen de la semana (comidas planificadas, media diaria de kcal, ingredientes por comprar; `lib/summary.ts` con tests) y botón de modo claro/oscuro (`lib/theme.ts`, `state/useTheme.ts`; la elección se guarda en la clave `mesa-semanal-theme`, aparte del estado del dominio).
 - Objetivo diario de kcal (`state.goal`, 0 = sin objetivo; acción `SET_GOAL`, límite `MAX_GOAL` = 6000): campo en la cabecera y barra de progreso por día en Semana, en rojo con el texto «+N sobre el objetivo» si se supera (`lib/nutrition.ts` → `goalProgress`). Los estados guardados sin `goal` se leen como 0.
+- Pasos de preparación (`Recipe.s`, opcional): las 16 recetas de serie los traen y se ven en el detalle. Recetas propias editables (acción `UPDATE_CUSTOM`, el formulario `NewRecipeModal` sirve para crear y editar; al guardar vuelve al detalle). Las de serie no se editan.
 
 ### Pendiente de verdad: subir a GitHub e importar en Vercel (ver README).
-- Mejoras futuras de la sección "Siguientes mejoras" (editar recetas propias, pasos de preparación, exportar la lista, deshacer).
+- Mejoras futuras de la sección "Siguientes mejoras" (exportar la lista de la compra, deshacer).
 
 ### Decisiones
 - `meals` en el estado guarda las comidas visibles en orden canónico (b, a, l, m, d); por defecto b, l, d como el prototipo.

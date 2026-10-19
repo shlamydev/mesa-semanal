@@ -67,6 +67,21 @@ describe('reducer', () => {
     })
   })
 
+  describe('editar recetas propias', () => {
+    const withOne = reducer(initialState, { type: 'ADD_CUSTOM', recipe: draft, slot: '0l' })
+    const id = withOne.custom[0].id
+
+    it('actualiza los datos y conserva id, propia y hueco del plan', () => {
+      const s = reducer(withOne, { type: 'UPDATE_CUSTOM', id, recipe: { ...draft, n: 'Otra', s: ['Cocer'] } })
+      expect(s.custom[0]).toMatchObject({ id, n: 'Otra', s: ['Cocer'], custom: true })
+      expect(s.plan['0l']).toBe(id)
+    })
+
+    it('ignora ids que no son de recetas propias', () => {
+      expect(reducer(withOne, { type: 'UPDATE_CUSTOM', id: 1, recipe: draft })).toBe(withOne)
+    })
+  })
+
   describe('recetas propias', () => {
     it('crea con id propio y marcada como custom', () => {
       const s = reducer(initialState, { type: 'ADD_CUSTOM', recipe: draft })

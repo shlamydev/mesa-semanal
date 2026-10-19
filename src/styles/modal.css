@@ -12,3 +12,6 @@
 .modal .pick .em{margin:0;width:46px;height:46px;font-size:1.6rem;flex:none}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .btn.danger{color:var(--warn);border-color:var(--warn)}
+.steps-title{font-size:1rem;margin:14px 0 4px}
+.steps{padding-left:22px;margin:0 0 10px;display:grid;gap:6px}
+.modal ol.steps{margin:0 0 10px}

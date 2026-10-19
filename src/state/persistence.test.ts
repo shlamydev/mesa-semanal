@@ -34,6 +34,13 @@ describe('persistencia', () => {
     expect(sanitizeState({}).goal).toBe(0) // estados guardados antes de existir el objetivo
   })
 
+  it('conserva los pasos de las recetas propias y descarta los inválidos', () => {
+    const base = { id: 1000, n: 'x', e: '🍲', t: 5, k: 100, m: 'l', tg: [], ing: [] }
+    const s = sanitizeState({ custom: [{ ...base, s: ['Pelar', 3, '  ', 'Cocer'] }, base] })
+    expect(s.custom[0].s).toEqual(['Pelar', 'Cocer'])
+    expect(s.custom[1].s).toBeUndefined()
+  })
+
   it('ignora JSON roto', () => {
     localStorage.setItem(STORAGE_KEY, '{no es json')
     expect(loadState()).toEqual(initialState)

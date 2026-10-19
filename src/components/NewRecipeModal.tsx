@@ -2,7 +2,7 @@ import { useId, useState, type FormEvent } from 'react'
 import { MEAL_ORDER, MEALS, SECTIONS, mealById } from '../data/meals'
 import { parseSlot } from '../lib/slots'
 import { useStore } from '../state/useStore'
-import type { Diet, Ingredient, MealId } from '../types'
+import type { Diet, Ingredient, MealId, Recipe } from '../types'
 import { Modal } from './Modal'
 import '../styles/form.css'
 
@@ -10,6 +10,8 @@ interface Props {
   /** Si se crea desde un hueco, la receta se asigna a ese hueco. */
   slot?: string
   initialName?: string
+  /** Si se indica, el formulario edita esta receta propia en vez de crear una. */
+  recipe?: Recipe
   onClose: () => void
   notify: (msg: string) => void
 }
@@ -24,18 +26,26 @@ interface Row {
 const emptyRow = (): Row => ({ name: '', qty: '', unit: 'ud', section: SECTIONS[0] })
 const DEFAULT_EMOJI = '🍽️'
 
-export function NewRecipeModal({ slot, initialName = '', onClose, notify }: Props) {
+const rowsOf = (r: Recipe): Row[] =>
+  r.ing.length
+    ? r.ing.map(([name, qty, unit, section]) => ({ name, qty: String(qty), unit, section }))
+    : [emptyRow()]
+
+export function NewRecipeModal({ slot, initialName = '', recipe, onClose, notify }: Props) {
   const { dispatch } = useStore()
   const uid = useId()
-  const slotMeal = slot ? parseSlot(slot).meal : null
+  const slotMeal = !recipe && slot ? parseSlot(slot).meal : null
 
-  const [name, setName] = useState(initialName)
-  const [emoji, setEmoji] = useState(DEFAULT_EMOJI)
-  const [minutes, setMinutes] = useState('20')
-  const [kcal, setKcal] = useState('400')
-  const [diet, setDiet] = useState<'' | Diet>('')
-  const [meals, setMeals] = useState<MealId[]>(slotMeal ? [slotMeal] : ['l', 'd'])
-  const [rows, setRows] = useState<Row[]>([emptyRow()])
+  const [name, setName] = useState(recipe?.n ?? initialName)
+  const [emoji, setEmoji] = useState(recipe?.e ?? DEFAULT_EMOJI)
+  const [minutes, setMinutes] = useState(String(recipe?.t ?? 20))
+  const [kcal, setKcal] = useState(String(recipe?.k ?? 400))
+  const [diet, setDiet] = useState<'' | Diet>(recipe?.tg[0] ?? '')
+  const [meals, setMeals] = useState<MealId[]>(
+    recipe ? MEAL_ORDER.filter((id) => recipe.m.includes(id)) : slotMeal ? [slotMeal] : ['l', 'd'],
+  )
+  const [rows, setRows] = useState<Row[]>(recipe ? rowsOf(recipe) : [emptyRow()])
+  const [steps, setSteps] = useState(recipe?.s?.join('\n') ?? '')
   const [error, setError] = useState('')
 
   const setRow = (i: number, patch: Partial<Row>) =>
@@ -63,25 +73,32 @@ export function NewRecipeModal({ slot, initialName = '', onClose, notify }: Prop
       ing.push([rowName, qty, row.unit.trim() || 'ud', row.section])
     }
 
-    dispatch({
-      type: 'ADD_CUSTOM',
-      slot,
-      recipe: {
-        n,
-        e: emoji.trim() || DEFAULT_EMOJI,
-        t: Math.round(t),
-        k: Math.round(k),
-        tg: diet ? [diet] : [],
-        m: MEAL_ORDER.filter((id) => meals.includes(id)).join(''),
-        ing,
-      },
-    })
-    notify(`Receta «${n}» creada`)
+    const stepList = steps
+      .split('\n')
+      .map((x) => x.trim())
+      .filter(Boolean)
+    const data = {
+      n,
+      e: emoji.trim() || DEFAULT_EMOJI,
+      t: Math.round(t),
+      k: Math.round(k),
+      tg: diet ? [diet] : [],
+      m: MEAL_ORDER.filter((id) => meals.includes(id)).join(''),
+      ing,
+      ...(stepList.length ? { s: stepList } : {}),
+    }
+    if (recipe) {
+      dispatch({ type: 'UPDATE_CUSTOM', id: recipe.id, recipe: data })
+      notify(`Receta «${n}» actualizada`)
+    } else {
+      dispatch({ type: 'ADD_CUSTOM', slot, recipe: data })
+      notify(`Receta «${n}» creada`)
+    }
     onClose()
   }
 
   return (
-    <Modal title="Nueva receta" onClose={onClose}>
+    <Modal title={recipe ? 'Editar receta' : 'Nueva receta'} onClose={onClose}>
       <form className="form" onSubmit={submit} noValidate>
         {slotMeal && slot && (
           <p className="hint">Se añadirá también a este hueco ({mealById(slotMeal).label.toLowerCase()}).</p>
@@ -175,6 +192,11 @@ export function NewRecipeModal({ slot, initialName = '', onClose, notify }: Prop
           </button>
         </fieldset>
 
+        <div className="field">
+          <label htmlFor={`${uid}-steps`}>Pasos de preparación (opcional, uno por línea)</label>
+          <textarea id={`${uid}-steps`} rows={4} value={steps} onChange={(e) => setSteps(e.target.value)} />
+        </div>
+
         {error && (
           <p className="err" role="alert">
             {error}
@@ -182,7 +204,7 @@ export function NewRecipeModal({ slot, initialName = '', onClose, notify }: Prop
         )}
         <div className="actions">
           <button type="submit" className="btn pri">
-            Crear receta
+            {recipe ? 'Guardar cambios' : 'Crear receta'}
           </button>
           <button type="button" className="btn" onClick={onClose}>
             Cancelar
