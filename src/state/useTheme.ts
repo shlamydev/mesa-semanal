@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { loadTheme, saveTheme, systemTheme, type Theme } from '../lib/theme'
+import { loadTheme, saveTheme, defaultTheme, type Theme } from '../lib/theme'
 
-/** Tema claro/oscuro: respeta al sistema hasta que el usuario elige uno. */
+/** Tema claro/oscuro: claro por defecto, hasta que el usuario elige otro. */
 export function useTheme(): [Theme, () => void] {
   const [chosen, setChosen] = useState<Theme | null>(() => loadTheme())
-  const theme = chosen ?? systemTheme()
+  const theme = chosen ?? defaultTheme()
 
   useEffect(() => {
     if (chosen) document.documentElement.dataset.theme = chosen

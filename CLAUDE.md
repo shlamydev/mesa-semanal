@@ -61,7 +61,7 @@ prototipo/      HTML original (no modificar, solo referencia)
 * Idioma de la interfaz y de los textos: español
 * TypeScript estricto, componentes funcionales, sin `any`
 * Accesibilidad: foco visible, `aria-*` en pestañas, botones y modales, cierre con Escape
-* Respetar `prefers-color-scheme` y `prefers-reduced-motion`
+* Tema claro por defecto, oscuro solo si el usuario lo elige; respetar `prefers-reduced-motion`
 * Mobile first; la cuadrícula semanal pasa a siete columnas y aparece la barra lateral desde 900px
 * Commits pequeños y descriptivos
 
@@ -99,6 +99,7 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Exportar la lista de la compra (`lib/exportList.ts` con tests): copiar al portapapeles, compartir con Web Share (solo si el navegador lo soporta) e imprimir con estilos `@media print`. Solo exporta lo pendiente (ni en despensa ni comprado).
 - Deshacer: tras «Vaciar» y tras eliminar una receta propia el aviso ofrece «Deshacer» (6 s). Acción `RESTORE` con un parche parcial (`plan`, `done`, `custom`), así no pisa cambios hechos en medio (p. ej. las personas). Tipo `Notify` en `types.ts`.
 - Rediseño v4 (2026-10-20), el vigente: **blanco, moderno y minimalista con toques de color** (el usuario rechazó los verdes y los colores por comida, y después pidió «algunas cosas de color»). Base blanca y gris en `tokens.css` con **un único acento naranja calabaza** (`--acc` `#D9480F`, `--acc-soft`, `--acc-deep`; cambiar el tono es tocar solo esas variables) en botones principales, barras de progreso, el día de hoy, el menú activo, insignias, chips seleccionados, etiquetas de dieta y enlaces; el rojo `--warn` solo avisa de pasarse del objetivo de kcal, líneas finas en vez de sombras, tipografía Geist. Panel con **barra lateral clara** (`Sidebar.tsx`: logotipo, menú con iconos, personas y modo oscuro en grafito) y resumen en una sola barra (`Resumen.tsx`). La semana va en **siete columnas** (lunes a domingo) con una fila por comida (CSS grid + subgrid en `semana.css`) y fechas reales (`lib/week.ts`, con tests). Las comidas ya no tienen color (se quitó `color` de `data/meals.ts`). En móvil: cabecera arriba y pestañas fijas abajo.
+- Modo claro por defecto (2026-10-20): ya no se sigue `prefers-color-scheme`; la web se abre clara aunque el sistema esté en oscuro y solo pasa a oscuro con el botón de la luna (se recuerda en `mesa-semanal-theme`).
 
 ### Publicado (2026-10-20)
 - Código: https://github.com/shlamydev/mesa-semanal (público, rama `main`).

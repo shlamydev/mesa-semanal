@@ -2,7 +2,7 @@ export type Theme = 'light' | 'dark'
 
 export const THEME_KEY = 'mesa-semanal-theme'
 
-/** Tema guardado por el usuario; null = seguir al sistema. */
+/** Tema guardado por el usuario; null = el de por defecto (claro). */
 export function loadTheme(storage: Storage = localStorage): Theme | null {
   try {
     const v = storage.getItem(THEME_KEY)
@@ -20,5 +20,5 @@ export function saveTheme(theme: Theme, storage: Storage = localStorage): void {
   }
 }
 
-export const systemTheme = (): Theme =>
-  typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+/** Tema por defecto: claro. Solo es oscuro si el usuario lo elige con el botón. */
+export const defaultTheme = (): Theme => 'light'
