@@ -4,8 +4,8 @@
 .side nav{display:flex;flex-direction:column;gap:2px}
 .side nav button{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;border-radius:var(--r1);padding:9px 12px;font-weight:500;font-size:.92rem;color:var(--side-mute);text-align:left;transition:background .12s,color .12s}
 .side nav button:hover{background:var(--side-2);color:var(--side-ink)}
-.side nav button[aria-selected=true]{background:var(--side-2);color:var(--side-ink);font-weight:600}
-.badge{margin-left:auto;background:var(--ink);color:var(--bg);border-radius:999px;font-size:.7rem;font-weight:600;padding:1px 8px;min-width:24px;text-align:center}
+.side nav button[aria-selected=true]{background:var(--acc-soft);color:var(--acc-deep);font-weight:600}
+.badge{margin-left:auto;background:var(--acc);color:var(--acc-ink);border-radius:999px;font-size:.7rem;font-weight:600;padding:1px 8px;min-width:24px;text-align:center}
 .sidetools{display:flex;align-items:center;gap:8px}
 .people{flex:1;display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--line-2);background:var(--surf);border-radius:var(--r1);padding:4px 4px 4px 12px;font-size:.84rem;color:var(--mute)}
 .stepper{display:flex;align-items:center;gap:2px}
@@ -29,6 +29,6 @@
  .side nav{position:fixed;left:0;right:0;bottom:0;z-index:5;flex-direction:row;gap:0;background:var(--surf);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
  .side nav button{flex:1;flex-direction:column;gap:2px;justify-content:center;padding:8px 4px;font-size:.74rem;color:var(--mute);position:relative}
  .side nav button:hover{background:none}
- .side nav button[aria-selected=true]{background:none;color:var(--ink)}
+ .side nav button[aria-selected=true]{background:none;color:var(--acc-deep)}
  .side nav button .badge{position:absolute;top:2px;left:calc(50% + 6px);margin:0;font-size:.64rem;padding:0 6px;min-width:20px}
 }
