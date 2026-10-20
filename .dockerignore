@@ -1,0 +1,30 @@
+# Dependencias y resultados de build: se regeneran dentro de la imagen
+node_modules
+dist
+dist-ssr
+build
+*.tsbuildinfo
+
+# Control de versiones y despliegues
+.git
+.gitignore
+.vercel
+.netlify
+
+# Entorno, logs y caché
+.env
+.env.*
+*.log
+.vite
+.cache
+coverage
+
+# Sistema y editores
+.DS_Store
+.vscode
+.idea
+
+# Documentación del proyecto (no hace falta en la imagen)
+README.md
+CLAUDE.md
+prototipo

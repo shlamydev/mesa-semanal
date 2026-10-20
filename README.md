@@ -12,6 +12,19 @@ npm run lint    # oxlint
 npm run build   # build de producción en dist/
 ```
 
+## Docker
+
+La app es estática (no tiene servidor): el `Dockerfile` la construye con Node y la sirve con nginx.
+
+```bash
+docker build -t app-web .
+docker run -p 8080:80 app-web
+```
+
+Después abre http://localhost:8080 en el navegador. Para pararla: `Ctrl+C` (o `docker ps` y `docker stop <id>`).
+
+Comando de arranque en una sola línea: `docker build -t app-web . && docker run -p 8080:80 app-web`
+
 ## Despliegue (Vercel)
 
 1. Sube el repositorio a GitHub.
