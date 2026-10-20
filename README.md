@@ -1,5 +1,7 @@
 # Mesa Semanal
 
+**Web:** https://mesa-semanal.vercel.app · **Código:** https://github.com/shlamydev/mesa-semanal
+
 Planificador de comidas semanal con lista de la compra automática. Vite + React + TypeScript, sin backend (los datos se guardan en `localStorage`).
 
 ```bash

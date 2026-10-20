@@ -100,8 +100,13 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Deshacer: tras «Vaciar» y tras eliminar una receta propia el aviso ofrece «Deshacer» (6 s). Acción `RESTORE` con un parche parcial (`plan`, `done`, `custom`), así no pisa cambios hechos en medio (p. ej. las personas). Tipo `Notify` en `types.ts`.
 - Rediseño v4 (2026-10-20), el vigente: **blanco, moderno y minimalista con toques de color** (el usuario rechazó los verdes y los colores por comida, y después pidió «algunas cosas de color»). Base blanca y gris en `tokens.css` con **un único acento naranja calabaza** (`--acc` `#D9480F`, `--acc-soft`, `--acc-deep`; cambiar el tono es tocar solo esas variables) en botones principales, barras de progreso, el día de hoy, el menú activo, insignias, chips seleccionados, etiquetas de dieta y enlaces; el rojo `--warn` solo avisa de pasarse del objetivo de kcal, líneas finas en vez de sombras, tipografía Geist. Panel con **barra lateral clara** (`Sidebar.tsx`: logotipo, menú con iconos, personas y modo oscuro en grafito) y resumen en una sola barra (`Resumen.tsx`). La semana va en **siete columnas** (lunes a domingo) con una fila por comida (CSS grid + subgrid en `semana.css`) y fechas reales (`lib/week.ts`, con tests). Las comidas ya no tienen color (se quitó `color` de `data/meals.ts`). En móvil: cabecera arriba y pestañas fijas abajo.
 
-### Pendiente de verdad: subir a GitHub e importar en Vercel (ver README).
-- Mejoras futuras de la sección "Siguientes mejoras" (sincronización entre dispositivos, cuentas).
+### Publicado (2026-10-20)
+- Código: https://github.com/shlamydev/mesa-semanal (público, rama `main`).
+- Web: https://mesa-semanal.vercel.app (Vercel, proyecto `mesa-semanal` en la cuenta `shlamydev`). El repositorio está conectado: cada `git push` a `main` despliega solo.
+
+### Pendiente
+- Presentación de la asignatura (guion de 5 minutos).
+- Ideas futuras ("Siguientes mejoras"): sincronización entre dispositivos y cuentas de usuario.
 
 ### Decisiones
 - `meals` en el estado guarda las comidas visibles en orden canónico (b, a, l, m, d); por defecto b, l, d como el prototipo.
