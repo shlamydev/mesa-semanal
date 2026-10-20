@@ -21,6 +21,8 @@ export function Recetas({ onOpen, onNew }: Props) {
 
   return (
     <>
+      <h2 className="pagetitle">Recetas</h2>
+      <p className="hint weekhint">Busca, filtra y abre una receta para ver ingredientes y pasos.</p>
       <div className="tools">
         <input
           className="search"

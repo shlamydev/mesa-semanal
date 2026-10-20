@@ -18,15 +18,18 @@ export function Compra({ notify }: Props) {
 
   if (!items.length) {
     return (
-      <div className="emptystate">
-        <span className="big" aria-hidden="true">
-          🛒
-        </span>
-        <p>
-          Tu lista está vacía. Añade comidas en la pestaña Semana y los ingredientes aparecerán aquí, sumados y
-          ajustados a {people} {people === 1 ? 'persona' : 'personas'}.
-        </p>
-      </div>
+      <>
+        <h2 className="pagetitle">Lista de la compra</h2>
+        <div className="emptystate">
+          <span className="big" aria-hidden="true">
+            🛒
+          </span>
+          <p>
+            Tu lista está vacía. Añade comidas en la pestaña Semana y los ingredientes aparecerán aquí, sumados y
+            ajustados a {people} {people === 1 ? 'persona' : 'personas'}.
+          </p>
+        </div>
+      </>
     )
   }
 
@@ -56,6 +59,7 @@ export function Compra({ notify }: Props) {
 
   return (
     <>
+      <h2 className="pagetitle">Lista de la compra</h2>
       <div className="shophead">
         <div className="hint">
           {bought} de {need.length} comprados
