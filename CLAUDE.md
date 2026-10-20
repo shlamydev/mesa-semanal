@@ -26,7 +26,7 @@ Convertir el prototipo en una web mantenible y dejarla lista para desplegar. La 
 
 ```
 src/
-  components/   Semana, Recetas, Compra, Modales, Cabecera
+  components/   Semana, Recetas, Compra, Modales, Sidebar, Resumen
   data/         recetas base (recipes.ts) y calorías
   state/        reducer, contexto y persistencia
   lib/          shopping.ts (cálculo de la lista de la compra)
@@ -62,7 +62,7 @@ prototipo/      HTML original (no modificar, solo referencia)
 * TypeScript estricto, componentes funcionales, sin `any`
 * Accesibilidad: foco visible, `aria-*` en pestañas, botones y modales, cierre con Escape
 * Respetar `prefers-color-scheme` y `prefers-reduced-motion`
-* Mobile first; la cuadrícula semanal pasa a columnas desde 760px
+* Mobile first; la cuadrícula semanal pasa a siete columnas y aparece la barra lateral desde 900px
 * Commits pequeños y descriptivos
 
 ## Forma de trabajar
@@ -98,9 +98,7 @@ Ojo: el prototipo HTML es una versión **anterior** a este documento. Las comida
 - Pasos de preparación (`Recipe.s`, opcional): las 16 recetas de serie los traen y se ven en el detalle. Recetas propias editables (acción `UPDATE_CUSTOM`, el formulario `NewRecipeModal` sirve para crear y editar; al guardar vuelve al detalle). Las de serie no se editan.
 - Exportar la lista de la compra (`lib/exportList.ts` con tests): copiar al portapapeles, compartir con Web Share (solo si el navegador lo soporta) e imprimir con estilos `@media print`. Solo exporta lo pendiente (ni en despensa ni comprado).
 - Deshacer: tras «Vaciar» y tras eliminar una receta propia el aviso ofrece «Deshacer» (6 s). Acción `RESTORE` con un parche parcial (`plan`, `done`, `custom`), así no pisa cambios hechos en medio (p. ej. las personas). Tipo `Notify` en `types.ts`.
-- Rediseño sobrio v2 (2026-10-20), sustituye al visual anterior: paleta neutra (fondo piedra, texto grafito verdoso) con un único acento verde pino; los colores de comida quedan como marca fina apagada. Tipografía Geist. Tokens en `styles/tokens.css` (`--acc`, `--acc-soft`, `--line-2`, radios `--r1..3`), sin sombras salvo en hover/modales.
-- Semana con fechas reales (`lib/week.ts`, con tests): título «Semana del 19 al 25 de octubre», número de día y marca «Hoy». Cabecera con logotipo e iconos SVG (`components/Icons.tsx`), resumen en una sola barra y pestañas subrayadas. Los huecos rellenos llevan una barra de color de la comida; animación de «sello» solo al rellenar un hueco tras cargar.
-- Compra como lista tipo libro de cuentas (secciones, cantidades alineadas, «Ya lo tengo» discreto), tarjetas de receta y modales con el mismo lenguaje sobrio.
+- Rediseño v3 (2026-10-20), sustituye a los anteriores: panel con **barra lateral verde bosque** (`Sidebar.tsx`: logotipo, menú con iconos, personas y modo oscuro) y contenido claro con un único acento menta (`--acc`). La semana va en **siete columnas** (lunes a domingo) con una fila por comida (CSS grid + subgrid en `semana.css`) y las fechas reales (`lib/week.ts`, con tests). `Resumen.tsx` muestra planificado, media de kcal, objetivo diario y compra pendiente. Tipografía: Bricolage Grotesque (títulos) e Instrument Sans (texto). En móvil: cabecera arriba y pestañas fijas abajo. Se retiró `Cabecera.tsx`.
 
 ### Pendiente de verdad: subir a GitHub e importar en Vercel (ver README).
 - Mejoras futuras de la sección "Siguientes mejoras" (sincronización entre dispositivos, cuentas).

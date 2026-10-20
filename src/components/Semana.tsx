@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type DragEvent, type KeyboardEvent } from 'react'
 import { DAYS, MEALS, type Meal } from '../data/meals'
-import { formatKcal, formatKcalPerson } from '../lib/format'
+import { formatKcal } from '../lib/format'
 import { dayKcal, goalProgress } from '../lib/nutrition'
 import { slotKey } from '../lib/slots'
 import { suggestPlan } from '../lib/suggest'
@@ -57,7 +57,7 @@ export function Semana({ onPick, notify }: Props) {
   return (
     <>
       <div className="weekhead">
-        <h2>{weekLabel(dates)}</h2>
+        <h2 className="pagetitle">{weekLabel(dates)}</h2>
         <div className="tools">
           <button
             className="btn pri"
@@ -95,10 +95,9 @@ export function Semana({ onPick, notify }: Props) {
         ))}
       </div>
 
-      <div className="week" ref={weekRef} style={{ '--cols': active.length } as CSSProperties}>
-        <div />
-        {active.map((m) => (
-          <div className="colh" key={m.id}>
+      <div className="week" ref={weekRef} style={{ '--cols': active.length, '--span': active.length + 1 } as CSSProperties}>
+        {active.map((m, i) => (
+          <div className="colh" key={m.id} style={{ '--r': i + 2 } as CSSProperties}>
             <i style={{ background: m.color }} />
             {m.label}
           </div>
@@ -107,7 +106,7 @@ export function Semana({ onPick, notify }: Props) {
           const kcal = dayKcal(plan, recipes, day, meals)
           const goal = kcal > 0 ? goalProgress(kcal, state.goal) : null
           return (
-            <div className="day" key={dayName}>
+            <div className="day" key={dayName} style={{ '--c': day + 2 } as CSSProperties}>
               <div className="dayhead">
                 <span className={`dnum ${day === today ? 'is-today' : ''}`}>{dates[day].getDate()}</span>
                 <div className="dinfo">
@@ -181,7 +180,7 @@ export function Semana({ onPick, notify }: Props) {
                       <span className="txt">
                         <span className="n">{recipe.n}</span>
                         <span className="meta">
-                          {recipe.t} min · {formatKcalPerson(recipe.k)}
+                          {recipe.t} min · {Math.round(recipe.k)} kcal
                         </span>
                       </span>
                       <button

@@ -1,29 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
-import { Cabecera } from './components/Cabecera'
 import { Compra } from './components/Compra'
 import { NewRecipeModal } from './components/NewRecipeModal'
 import { PickRecipeModal } from './components/PickRecipeModal'
 import { RecipeDetailModal } from './components/RecipeDetailModal'
 import { Recetas } from './components/Recetas'
+import { Resumen } from './components/Resumen'
 import { Semana } from './components/Semana'
+import { Sidebar, type Tab } from './components/Sidebar'
 import { buildShoppingList, pendingCount } from './lib/shopping'
 import { StoreProvider } from './state/StoreProvider'
 import { useStore } from './state/useStore'
 import type { Notify } from './types'
 
-type Tab = 'week' | 'rec' | 'shop'
 type ModalState =
   | { kind: 'pick'; slot: string }
   | { kind: 'recipe'; id: number }
   | { kind: 'new'; slot?: string; name?: string }
   | { kind: 'edit'; id: number }
   | null
-
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'week', label: 'Semana' },
-  { id: 'rec', label: 'Recetas' },
-  { id: 'shop', label: 'Compra' },
-]
 
 function Shell() {
   const { state, recipes } = useStore()
@@ -49,30 +43,18 @@ function Shell() {
   )
 
   return (
-    <div className="wrap">
-      <Cabecera />
-      <nav role="tablist" aria-label="Secciones">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            role="tab"
-            id={`tab-${t.id}`}
-            aria-selected={tab === t.id}
-            aria-controls="panel"
-            onClick={() => setTab(t.id)}
-          >
-            {t.label}
-            {t.id === 'shop' && <span className="badge">{pending}</span>}
-          </button>
-        ))}
-      </nav>
-      <main id="panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
-        {tab === 'week' && <Semana onPick={(slot) => setModal({ kind: 'pick', slot })} notify={notify} />}
-        {tab === 'rec' && (
-          <Recetas onOpen={(id) => setModal({ kind: 'recipe', id })} onNew={(name) => setModal({ kind: 'new', name })} />
-        )}
-        {tab === 'shop' && <Compra notify={notify} />}
-      </main>
+    <div className="app">
+      <Sidebar tab={tab} onTab={setTab} pending={pending} />
+      <div className="content">
+        <Resumen />
+        <main id="panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
+          {tab === 'week' && <Semana onPick={(slot) => setModal({ kind: 'pick', slot })} notify={notify} />}
+          {tab === 'rec' && (
+            <Recetas onOpen={(id) => setModal({ kind: 'recipe', id })} onNew={(name) => setModal({ kind: 'new', name })} />
+          )}
+          {tab === 'shop' && <Compra notify={notify} />}
+        </main>
+      </div>
 
       {modal?.kind === 'pick' && (
         <PickRecipeModal

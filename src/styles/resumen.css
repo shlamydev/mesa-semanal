@@ -1,0 +1,16 @@
+.summary{display:grid;grid-template-columns:1.3fr 1.3fr 1fr 1fr;gap:12px;margin:0 0 28px}
+.summary>div{background:var(--surf);border:1px solid var(--line);border-radius:var(--r2);padding:14px 18px;box-shadow:var(--shadow);min-width:0}
+.summary dt{font-size:.78rem;color:var(--mute);font-weight:500}
+.summary dt label{cursor:pointer}
+.summary dd{margin:4px 0 0;font-weight:700;font-size:1.05rem;font-variant-numeric:tabular-nums;line-height:1.25}
+.summary .goal{display:flex;align-items:center;gap:6px}
+.summary .goal input{width:100%;min-width:0;max-width:96px;padding:1px 8px;margin-left:-8px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--ink);font:inherit;font-weight:700}
+.summary .goal input:hover{border-color:var(--line-2)}
+.summary .goal input:focus{background:var(--surf-2);border-color:var(--acc)}
+.summary .goal span{color:var(--mute);font-weight:400;font-size:.85rem}
+.summary .bar{margin:10px 0 0;height:5px}
+@media(max-width:899px){
+ .summary{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+ .summary>div{padding:12px 14px}
+ .summary dd{font-size:.98rem}
+}

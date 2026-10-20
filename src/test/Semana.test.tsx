@@ -40,7 +40,7 @@ describe('Semana', () => {
     await userEvent.click(within(dialog).getByText('Tostada de aguacate y huevo'))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     const week = within(document.querySelector<HTMLElement>('.week')!)
-    expect(week.getByText('≈ 380 kcal por persona', { exact: false })).toBeInTheDocument()
+    expect(week.getByText('10 min · 380 kcal')).toBeInTheDocument()
     expect(week.getByText('≈ 380 kcal')).toBeInTheDocument()
     // la cabecera refleja el progreso y la media diaria
     expect(screen.getByText('1 de 21 comidas')).toBeInTheDocument()
