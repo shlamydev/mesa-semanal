@@ -89,7 +89,6 @@ export function Semana({ onPick, notify }: Props) {
         <span className="hint">Comidas:</span>
         {MEALS.map((m) => (
           <button key={m.id} className="chip" aria-pressed={meals.includes(m.id)} onClick={() => toggleMeal(m)}>
-            <i style={{ background: m.color }} />
             {m.label}
           </button>
         ))}
@@ -98,7 +97,6 @@ export function Semana({ onPick, notify }: Props) {
       <div className="week" ref={weekRef} style={{ '--cols': active.length, '--span': active.length + 1 } as CSSProperties}>
         {active.map((m, i) => (
           <div className="colh" key={m.id} style={{ '--r': i + 2 } as CSSProperties}>
-            <i style={{ background: m.color }} />
             {m.label}
           </div>
         ))}
@@ -139,8 +137,7 @@ export function Semana({ onPick, notify }: Props) {
                   const cls = (recipe ? 'slot on' : 'slot') + (over === key ? ' over' : '')
                   const label = (
                     <span className="k">
-                      <i style={{ background: m.color }} />
-                      {m.label}
+                                {m.label}
                     </span>
                   )
                   if (!recipe) {
@@ -167,7 +164,6 @@ export function Semana({ onPick, notify }: Props) {
                       tabIndex={0}
                       draggable
                       aria-label={`${m.label} del ${dayName.toLowerCase()}: ${recipe.n}. Cambiar receta`}
-                      style={{ '--c': m.color } as CSSProperties}
                       onClick={() => onPick(key)}
                       onKeyDown={onKeyDown}
                       onDragStart={(e) => e.dataTransfer.setData('text/plain', key)}

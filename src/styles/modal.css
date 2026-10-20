@@ -1,11 +1,11 @@
-.ov{position:fixed;inset:0;background:rgba(7,22,15,.55);backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center;z-index:10}
+.ov{position:fixed;inset:0;background:rgba(17,17,19,.4);backdrop-filter:blur(2px);display:none;align-items:flex-end;justify-content:center;z-index:10}
 .ov.show{display:flex}
 .modal{background:var(--surf);width:100%;max-width:520px;max-height:86%;overflow:auto;border-radius:var(--r3) var(--r3) 0 0;padding:20px 18px calc(18px + env(safe-area-inset-bottom,0px))}
 .modal:focus{outline:none}
 @media(min-width:600px){.ov{align-items:center}.modal{border-radius:var(--r3)}}
 @keyframes rise{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
 .modal{animation:rise .18s ease-out}
-.modal h2{margin:0 0 4px;font-size:1.25rem;font-weight:700;letter-spacing:-.02em}
+.modal h2{margin:0 0 4px;font-size:1.2rem;font-weight:600;letter-spacing:-.02em}
 .modal ul{padding-left:18px;margin:10px 0}
 .pick{display:flex;gap:12px;align-items:center;width:100%;border:0;border-top:1px solid var(--line);background:none;padding:10px 4px;text-align:left;border-radius:8px}
 .pick:hover{background:var(--surf-2)}

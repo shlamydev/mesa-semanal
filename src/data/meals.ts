@@ -3,16 +3,15 @@ import type { MealId } from '../types'
 export interface Meal {
   id: MealId
   label: string
-  color: string
 }
 
 /** Orden en que se muestran las comidas en la cuadrícula. */
 export const MEALS: readonly Meal[] = [
-  { id: 'b', label: 'Desayuno', color: 'var(--b)' },
-  { id: 'a', label: 'Almuerzo', color: 'var(--a)' },
-  { id: 'l', label: 'Comida', color: 'var(--l)' },
-  { id: 'm', label: 'Merienda', color: 'var(--m)' },
-  { id: 'd', label: 'Cena', color: 'var(--d)' },
+  { id: 'b', label: 'Desayuno' },
+  { id: 'a', label: 'Almuerzo' },
+  { id: 'l', label: 'Comida' },
+  { id: 'm', label: 'Merienda' },
+  { id: 'd', label: 'Cena' },
 ]
 
 export const MEAL_ORDER: readonly MealId[] = MEALS.map((m) => m.id)
